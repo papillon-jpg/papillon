@@ -1,5 +1,5 @@
 # papillon
-
+1. Napraviti crvenu,plavu,zelenu komponentu i spremiti u isti fajl i filtriranu crvenu
 % u posebnu .m skriptu smo napravili ovu funkciju, koju cemo kasnije pozivati 
 
 function [boja] = komponenta(slika, RGB) %% naziv mora biti kao komponenta
@@ -34,20 +34,6 @@ if RGB == 'B'
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 % zatim pravimo drugu .m skriptu u kojoj primjenjujemo filter
@@ -90,23 +76,7 @@ imwrite(plava, 'MojaPlava.jpg');
 imwrite(filtriranaCrvena, 'MojaFiltriranaCrvena.jpg');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
+2. ROTIRANJE TROUGLA
 
 close all
 clear all
@@ -160,7 +130,7 @@ for i=1:30
 end
 
  
-
+3. NAJDUZA RIJEC, OBRNE SE, NOVA RECENICA
 % Čitanje rečenice
 recenica = input('Unesite rečenicu: ', 's');
 
@@ -192,7 +162,7 @@ fprintf('Nova rečenica: %s\n', nova_recenica);
 
 
 
- 
+ KAZALJKA NA SATU 2 SEKUNDE
 
 r = 0:0.1:2*pi;
 x = sin(r)+5;
@@ -215,19 +185,7 @@ end
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+GUI : DVIJE MATRICE, IZ KNJIGE
  
         % Size changed function: UlaznipodaciPanel
         function UlaznipodaciPanelSizeChanged(app, event)
@@ -283,7 +241,7 @@ end
     end
 
  
-
+GUI: JEDNA MATRICA, DIJAGONALNA,INVERZNA
  
 % Button pushed function: DijagonalnaMatricaButton
         function DijagonalnaMatricaButtonPushed(app, event)
@@ -342,7 +300,7 @@ end
 
 
 
- 
+ CETIRI PIRAMIDA
 clear all
 close all
 
@@ -408,14 +366,7 @@ zlabel('z-osa');
 
 
 
-
-
-
-
-
- 
-
- 
+SEMAFORIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 t = 0:0.1:2*pi;
 x_background = [-2 2 2 -2];
@@ -460,7 +411,7 @@ while true
     pause(50);  % 50 sekundi
 end
 
-%% ima i ovaj nacin sa manjim semaforom:
+%% ima i ovaj nacin sa manjim semaforom: I OVOOOOOOOOOOOO
 
 % Definisanje kutije semafora
 x1 = [-1.2 1.2 1.2 -1.2]; % X koordinate kutije semafora
@@ -578,18 +529,7 @@ zelenom = fill(x3+3.4, y3-5.1, 'green'); % Prikaz zelenog svjetla na drugom sema
 hold on % Zadržavanje trenutnog grafa
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+LENIJAR KAZALJKA
 
  
 x=[-1 7 7 -1];
@@ -636,7 +576,7 @@ for i=1:11
     set(strelicaa,'x',xk,'y',yk,'facecolor','blue');
 end
 
-
+PETOUGAO SE OKRECE PREMA GORE
  
 clear all
 close all
@@ -676,7 +616,7 @@ end
 
 
 
- 
+SNI SLOGOVI
 % Unos teksta sa tastature
 tekst = input('Unesite tekst: ', 's');
 
@@ -718,7 +658,7 @@ broj_rijeci = length(rijeci);
 
 fprintf('Broj riječi: %d\n', broj_rijeci);
 
- 
+ FILTERI RAZLICITI
 % Učitavanje originalne slike
 originalna_slika = imread('macka.jpg');
 
@@ -756,7 +696,7 @@ subplot(2, 3, 6);
 imshow(unsharp_slika);
 title('Unsharp filter');
 
-%% Iz knjige:
+%% Iz knjige: ISTI ZADATAK
 
 s=imread('buket.jpg');
 I=im2double(s);
@@ -783,7 +723,7 @@ H=fspecial('unsharp');
 Unsharp=imfilter(I,H,'replicate');
 subplot(3,2,6),imshow(Unsharp),title('Unsharp');
 
- 
+ SUNCEEEEEEEEEEE 5 PUTA U 2 SEKUNDE
 clc
 clearvars
 
@@ -831,7 +771,7 @@ for i = 1:broj_koraka
 end
 
 
- 
+ GUI : RECENICE
 % Button pushed function: StartButton
         function StartButtonPushed(app, event)
               % Get input text
@@ -894,7 +834,7 @@ end
 
 
  
-
+GUI: SPAJANJE RIJECI, KOLIKOVA SLOVA....
  
 % Button pushed function: SpajanjeRijeciButton
         function SpajanjeRijeciButtonPushed(app, event)
@@ -938,7 +878,8 @@ end
         end
     end
 
- 
+
+ SESTOUGAO LIJEVO DESNO PO PRAVOUOGANIKU
 clc 
 clear all 
 close all 
@@ -991,7 +932,7 @@ for k=1:5
     end
 end
 
-%% SA DRAJVAAA
+%% SA DRAJVAAA ISTI ZADATAK
 
 clc
 clear all
@@ -1042,7 +983,7 @@ end
 
 
  
-
+NISKOPROPUSNI FILTER, WS,WP..
 clear all
 clc
 
@@ -1068,7 +1009,7 @@ legend('Ulazni signal','Filtrirani signal')
 
 
 
-
+GUI: FUNKCIJA KOJA IMA OMEGU I FI
 % Button pushed function: PrikaziButton
         function PrikaziButtonPushed(app, event)
             % Get parameter values from GUI
@@ -1095,8 +1036,7 @@ legend('Ulazni signal','Filtrirani signal')
 
 
 
- 
-
+GUI: SMAJLIC SRETNI TURZNI
 
 % Button pushed function: SretniButton
         function SretniButtonPushed(app, event)
@@ -1158,7 +1098,8 @@ t = 0:pi/50:2*pi;
         end
     end
 
- 
+
+ KUGLA KOJA SE KRECE LIJEVO DESNO 3 SEKUNDE
 x1=0;
 y1=-0.5:0.001:0.1;
 x2=4;
@@ -1197,8 +1138,7 @@ end
 
 
 
-
- 
+GUI: ZASTAVA
 
 % Button pushed function: PromijeniBojuButton
         function PromijeniBojuButtonPushed(app, event)
@@ -1228,7 +1168,7 @@ end
     end
 
  
-
+ANIMACIJA TACKE KROZ PUTANJU 5COST,2SINT,T
 % 1. zadatak 
 clear all
 clc
@@ -1275,7 +1215,7 @@ for k = 1:length(t)
 end
 
 
- 
+ RIJEC POCINJE SA I ZAVRSAVA SA D
 clc;
 clear;
 
@@ -1321,8 +1261,8 @@ disp(words);
 
  
  
- 
 
+ ANIMACIJA TACKE 8COST,5SINT,2T
  
 clear all
 clc
@@ -1369,7 +1309,7 @@ for k = 1:length(t)
 end
 
 
- 
+ GUI : MATRICA A U B 
        % Button pushed function: IzracunajButton
         function IzracunajButtonPushed(app, event)
             A_str = app.ElementiMatriceATextArea.Value;
@@ -1417,7 +1357,7 @@ end
 
 
  
- 
+ LINEARNO POJACANJE ZVUKA I INVERZIJA
 clc 
 clear all 
 close all
@@ -1444,7 +1384,7 @@ axis([0 2 -1 1]);
  
 
 
- 
+ VISOKOPROPUSNI FILTER SA A I B
 % 1. a)
 Fs=4000;
 T=1/Fs;
@@ -1539,7 +1479,7 @@ info(f)
 fvtool(f)
 
 
- 
+ VENTILATOR
 figure
 theta=0:pi/100:2*pi;
 rho=sin(theta*3);
@@ -1568,7 +1508,7 @@ end
 
 
 
- 
+ SLIKA U ZASEBNE FOLDERE
 
 function [boja] = komponenta(slika, RGB) %% naziv mora biti kao komponenta
 boja = slika;
@@ -1650,17 +1590,7 @@ imwrite(plava, 'Original_i_Plava/plava.jpg');
 
 
 
-
-
-
-
-
-
-
-
-
- 
-OVO JE ZA TROSTRANU PIRAMIDU
+GUI : OVO JE ZA TROSTRANU PIRAMIDU
 
 % Button pushed function: PrikazipiramiduButton
         function PrikazipiramiduButtonPushed(app, event)
@@ -1696,6 +1626,7 @@ OVO JE ZA TROSTRANU PIRAMIDU
     end
  
 
+CISTI TON GENERISATI
 % Step 1: Generate a clean tone of 100 Hz for 1 second at 3000 Hz sampling rate
 fs1 = 3000; % Sampling frequency for the tone
 t1 = 0:1/fs1:1-1/fs1; % Time vector for 1 second
@@ -1751,7 +1682,7 @@ sound(mixed_signal, fs1);
 DODATNI ZADACI
 
 
-1.
+1. SESTOUGAO KOJI SE OKRECE
  
 t=(1/12:1/6:1)'*2*pi;
 x=sin(t)+1;
@@ -1778,7 +1709,7 @@ end
 
 
 
-2. 
+2. KOCKA IDE LIEJVO DESNO
  
 %% Kretanje tijela 
 
