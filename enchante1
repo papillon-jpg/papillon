@@ -1,0 +1,374 @@
+PRIMJER 1. Očitavanje vrijednosti
+
+.begin
+
+.org 2048
+
+ld [x], %r1
+
+st %r1, [y]
+
+halt
+
+x:	5
+
+y:	0
+
+.end
+
+
+Ovaj program učitava vrijednost 5 iz memorijske lokacije označene sa x i pohranjuje je u memorijsku lokaciju označenu sa y.
+Objašnjenje koda:
+1.	.begin – označava početak programa
+2.	.org 2048 – postavlja adresu početka programa na 2048 (adresa je odabrana kako bi se osiguralo ispravno izvršavanje programa na odgovarajućem mjestu u memoriji), to znači da će se program nalaziti u memoriji na adresi 2048.
+3.	ld [x], %r1 – učitanje vrijednosti iz memorijske lokacije označene sa x i pohrana u registar %r1 (%r1 registar se obično koristi kao privremeni registar)
+4.	st %r1, [y] – pohrana vrijednosti iz registra %r1 u memorijsku lokaciju označenu sa y
+5.	halt – zaustavljanje izvršavanja programa
+6.	x:5 – simbol x koji ima vrijednost 5
+7.	y:0 – simbol y koji ima vrijednost 0
+8.	.end – kraj programa
+
+ 
+PRIMJER 2. Sabiranje dva broja
+
+.begin
+
+.org 2048
+
+ld [a], %r1
+
+
+ld [b], %r2
+
+start:	addcc %r1, %r2, %r3
+
+st %r3, [c]
+
+halt
+
+a:	5
+
+b:	6
+
+c:	0
+
+.end
+
+Program učitava vrijednosti iz memorijskih lokacija a i b, sabira ih i pohranjuje rezultat u memorijsku lokaciju c. Nakon toga se program zaustavlja.
+Objašnjenje koda:
+1.	.begin – označava početak programa
+2.	.org 2048 – postavlja adresu početka programa na 2048 (adresa je odabrana kako bi se osiguralo ispravno izvršavanje programa na odgovarajućem mjestu u memoriji), to znači da će se program nalaziti u memoriji na adresi 2048.
+3.	ld [a], %r1 – učitava sadržaj memorijske lokacije označene sa a i pohraljuje je u registar %r1
+4.	ld [b], %r2 - učitava sadržaj memorijske lokacije označene sa b i pohraljuje je u registar %r2
+5.	start: - početak sekcije koda koji se može pozvati iz drugih dijelova programa
+6.	addcc %r1, %r2, %r3 – dodaje sadržaj registra %r1 i %r2, te rezultat pohranjuje u registar %r3; osim toga addcc provjerava preljev (carry bit, provjera carry bita omogućuje programu da radi ispravno u situacijama kada rezultat operacije prelazi raspoloživi raspon vrijednosti koji se može spremiti u registar. Maksimalna vrijednost koja se može spremiti
+u registar, ukoliko je registar širine n bitova to je 2 − 1; npr ako imamo 32-bitni registar, maksimalna vrijednost je 232 − 1) i postavlja odgovarajuće statusne bitove
+7.	st %r3, [c] – pohraljuje sadržaj registra %r3 u memorijsku lokaciju označenu sa c
+8.	halt – zaustavlja izvršenje programa
+9.	a:5 – a ima vrijednost 5
+10.	b:6 – b ima vrijednost 6
+11.	c: 0 – c ima vrijednost 0
+ 
+
+PRIMJER 3. Oduzimanje dva broja 
+.begin
+
+.org 2048
+
+start:	ld [a], %r1
+
+ld [b], %r2
+
+subcc %r1, %r2, %r3
+
+halt
+
+
+a:	5
+
+b:	7
+
+.end
+
+Program učitava vrijednosti iz memorijskih lokacija a i b, oduzima ih i rezultat pohranjuje u registar %r3. Nakon toga se program zaustavlja.
+-	subcc - operacija oduzimanja između sadržaja registra %r1 i %r2, rezultat pohranjuje u registar %r3 i provjerava preljev. Ovdje se koristi instrukcija subcc koja oduzima sadržaje registra i provjerava preljev
+ 
+ 
+PRIMJER 4. Sabiranje 6 brojeva pomoću dva registra
+
+
+.begin
+
+.org 2048
+
+ld [a], %r1
+
+ld [b], %r2
+
+addcc %r1, %r2, %r2
+
+ld [c], %r1
+
+addcc %r1, %r2, %r2
+
+ld [d], %r1
+
+addcc %r1, %r2, %r2
+
+ld [e], %r1
+
+addcc %r1, %r2, %r2
+
+ld [f], %r1
+
+addcc %r1, %r2, %r2
+
+halt
+
+a:	5
+
+b:	6
+
+c:	1
+
+d:	2
+
+e:	3
+
+f:	4
+
+.end
+ 
+ 
+PRIMJER 5. Sabiranje tri broja
+
+.begin
+
+.org 2048
+
+ld [a], %r1
+
+ld [b], %r2
+
+addcc %r1, %r2, %r3
+
+ld [c], %r4
+
+addcc %r3, %r4, %r5
+
+halt
+
+a:	1
+
+b:	2
+
+c:	3
+
+.end
+
+
+
+
+PRIMJER 6. Sabiranje vrijednosti sa registrom r0 .begin
+
+.org 2048
+
+ld [x], %r1
+
+addcc %r1, %r0, %r2
+
+halt
+
+x:	12
+
+.end
+ 
+
+
+PRIMJER 7. Učitati vrijednost dva broja iz memorije u registre r1 i r2. Izračunati razliku između ta dva broja. Provjeriti je li rezultat negativan, ako jeste skočiti na etiketu drugi. Ako rezultat nije negativan, sabrati prvi broj sa nulom i završiti program. Ako je rezultat negativan, sabrati drugi broj sa nulom i završiti program.
+
+.begin
+
+.org 2048
+
+ld [x], %r1
+
+ld [y], %r2
+
+subcc %r1, %r2, %r3
+
+bneg drugi
+
+addcc %r1, %r0, %r3
+
+ba kraj
+
+drugi:	addcc %r2, %r0, %r3
+
+ba kraj
+
+kraj:	halt
+
+x:	15
+
+y:	5
+
+.end
+
+
+Objašnjenje koda:
+1.	begin – početak programa
+2.	.org 2048 - postavljanje adrese početka programa na 2048
+3.	ld [x], %r1 – učitava vrijedost varijable x iz memorije i pohranjuje je u registar r1
+4.	ld [y], %r2 - učitava vrijedost varijable y iz memorije i pohranjuje je u registar r2
+5.	subcc %r1, %r2, %3 – izračunava razliku između vrijednosti registara r1 i r2, te rezultat pohranjuje u registar r3, uz provjeru preljeva
+6.	bneg drugi – ako je rezultat prethodne operacije (oduzimanja) negativan, program skoči na oznaku drugi
+7.	addcc %r1, %r0, %r3 – ako je rezultat prethodne operacije bio pozitivan ili jedna nuli, dodaje se vrijednost registra s nulom (sabira se r1 i r0), a rezultat se pohranjuje u registar r3
+8.	ba kraj – bezuvjetno skoči na oznaku kraj
+9.	drugi: addcc %r2, %r0, %r3 – oznaka drugi označava dio koda koji se izvršava ako je rezultat razlike x-y bio negativan. U ovom slučaju sabia se vrijednost registra r2 sa r0 i srema u r3 uz provjeru preljeva
+10.	ba kraj – bezuvjetno skoči na oznaku kraj
+11.	kraj: halt – oznaka kraj označava kraj programa, a instrukcija halt zaustavlja izvršenje programa
+12.	x:15 – postavlja vrijednost x na 15
+13.	y:5 – postavlja vrijednost y na 5
+14.	end – kraj programa
+
+Objašnjenje iskorištenih instrukcija:
+
+1.	BA – bezuvjetni skok na određenu lokaciju u programu
+
+2.	BNEG – skoči na određenu lokaciju ako je rezultat zadnjeg aritmetičkog operatora negativan
+ 
+
+
+PRIMJER 8. Napiši program u asembleru koji uspoređuje dva broja i određuje koji je od ta dva broja veći. Ako je prvi broj veći od drugog, program treba dodati vrijednost prvog broja sa 0 i rezultat spremiti u registar r4. Ako je drugi broj veći od prvog, program treba dodati vrijednost drugog broja sa 0 i rezultat spremiti u registar r4. Vrijednosti brojeva su označene u memorijskim lokacijama a i b.
+
+.begin
+
+.org 2048
+
+ld [a], %r1
+
+ld [b], %r2
+
+subcc %r1, %r2, %r3
+
+bcs drugi
+
+addcc %r1, %r0, %r4
+
+ba kraj
+
+drugi:	addcc %r2, %r0, %r4
+
+ba kraj
+
+kraj:
+
+a:	5
+
+b:	6
+
+.end
+
+
+Objašnjenje: Na osnovu rezultata oduzimanja se može zaključiit koji broj je veći, prvi ili drugi.
+Ako je rezultat negativan, broj koji se nalazi u registru r2 je veci od prvog.
+ 
+ 
+ 
+PRIMJER 9. Napiši program u asembleru koji uspoređuje dva broja, čije su vrijednosti označene u memorijskim lokacijama a i b. Program treba odrediti koji je od ta dva broja veći i rezultat spremiti u registar. Ako je prvi broj veći od drugog, program treba pohraniti vrijednost prvog broja u registar. Ako je drugi broj veći od prvog, program treba pohraniti vrijednost drugog broja u registar.
+
+.begin
+
+.org 2048
+
+ld [a], %r1
+
+ld [b], %r2
+
+cmp %r1, %r2
+
+bge prvi_veci
+
+mov %r2, %r3
+
+ba kraj
+
+prvi_veci: mov %r1, %r3
+
+ba kraj
+
+kraj:	halt
+
+a:	5
+
+b:	7
+
+.end
+
+Objašnjenje koda:
+-	cmp – naredba služi za usporedbu vrijednosti između dva registra. Kada se izvrši naredba cmp %r1, %r2, procesor izračunava razliku između virjednosti %r1 i %r2, ali ne mijenja sadrzaj registara
+-	mov – naredba služi za kopiranje podataka iz jednog registra u drugi
+-	bge – skoči na određenu lokaciju ako je rezultat zadnjeg aritmetičkog operatora veći ili jednak nuli
+ 
+
+
+PRIMJER 10. Napiši program u asembleru koji uspoređuje tri broja čije su vrijednosti označene memorijskim lokacijama a, b i c. Program treba odrediti koji je od ta tri broja najveći i spremiti tu vrijednost u registar %r4. Nakon određivanja najvećeg broja, program treba završiti izvođenje.
+
+.begin
+
+.org 2048
+ 
+ld [a], %r1
+ ! Učitavanje vrijednosti iz memorijske lokacije a u registar %r1
+ 
+ld [b], %r2
+ ! Učitavanje vrijednosti iz memorijske lokacije b u registar %r2
+
+ld [c], %r3
+ ! Učitavanje vrijednosti iz memorijske lokacije c u registar %r3
+ 
+cmp %r1, %r2
+ ! Usporedba vrijednosti između %r1 i %r2
+ 
+
+bge usporedba_r3
+ 
+! Ako je %r1 >= %r2, skoči na usporedbu s %r3
+ 
+mov %r2, %r4
+
+! Ako nije, kopiraj vrijednost iz %r2 u %r4 (broj b je veći)
+ 
+ba kraj
+! Skoči na kraj programa
+
+usporedba_r3:
+
+cmp %r1, %r3
+! Usporedba vrijednosti između %r1 i %r3
+ 
+bge zavrsi
+
+! Ako je %r1 >= %r3, skoči na kraj programa 
+
+mov %r3, %r4
+
+! Ako nije, kopiraj vrijednost iz %r3 u %r4 (broj c je veći)
+ba kraj
+
+! Skoči na kraj programa
+ 
+zavrsi:
+
+mov %r1, %r4
+
+! Kopiraj vrijednost iz %r1 u %r4 (broj a je veći)
+
+kraj:	
+	halt	! Zaustavljanje programa
+a:	5	! Memorijska lokacija a sa vrijednošću 5
+b:	8	! Memorijska lokacija b sa vrijednošću 8
+c:	6	! Memorijska lokacija c sa vrijednošću 6
+
+.end
