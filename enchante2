@@ -1,0 +1,330 @@
+PRIMJER 11. Naći proizvod prvih n brojeva i rezultat spremiti u registar %r2.
+ 
+.begin 
+.org 2048
+
+ld [n], %r1 
+mov 1, %r2 
+mov 1, %r3
+
+loop:
+cmp %r3, %r1 
+bg kraj
+
+mov %r2, %r4 
+mov %r3, %r5
+
+;	Učitaj vrijednost n u registar %r1
+;	Inicijalizuj registar %r2 sa 1 (za čuvanje rezultata proizvoda n brojeva)
+;	Inicijalizuj registar %r3 sa 1 (kao brojač)
+;	Uporedi vrijednost %r3 sa vrednošću %r1
+;	Ako je %r3 veći od %r1, skoči na kraj
+;	Kopiraj trenutni rezultat u %r4
+;	Kopiraj vrijednost brojača u %r5
+
+inner_loop:
+ 
+cmp %r5, 1		; Uporedi %r5 sa 1
+ble done_mult	; Ako je %r5 manji ili jednak 0, završi množenje
+add %r2, %r4, %r2	; Dodaj %r4 (trenutni rezultat) na %r2
+subcc %r5, 1, %r5	; Smanji %r5 za 1
+ba inner_loop	; Bezuslovno skoči nazad na početak inner_loop
+done_mult:			
+add %r3, 1, %r3		; Povećaj brojač %r3 za 1
+ba loop	; Bezuslovno skoči nazad na početak glavne petlje
+kraj:			
+st %r2, [sum]		; Smjesti rezultat iz %r2 u memorijsku lokaciju sum
+halt	; Zastavi izvršavanje programa
+n:   5	; Inicijalna vrijednost n (5)
+sum:  0	; Memorijska lokacija za rezultat (sum)
+.end			
+ 
+
+PRIMJER 12. Napisati asembler program koji učitava tri vrijednosti iz memorije u tri registra i sortira ih po veličini od najveće do najmanje. Nakon sortiranja, program treba da smjesti sortirane vrijednosti nazad u memoriju.
+
+.begin
+
+.org 2048
+
+ld [a], %r1	; Učitaj vrijednost a u registar %r1
+ld [b], %r2	; Učitaj vrijednost b u registar %r2
+ld [c], %r3	; Učitaj vrijednost c u registar %r3
+cmp %r1, %r2	; Uporedi %r1 i %r2
+bge swap1	;	Ako je %r1 veći ili jednak %r2, skoči na swap1
+mov %r1, %r4 ; Zamijeni %r1 i %r2
+
+mov %r2, %r1
+
+mov %r4, %r2
+swap1:
+
+cmp %r2, %r3 ; Uporedi %r2 i %r3
+
+bge done	; Ako je %r2 veći ili jednak %r3, skoči na done
+
+mov %r2, %r4 ; Zamijeni %r2 i %r3
+
+mov %r3, %r2
+
+mov %r4, %r3
+
+
+done:
+st %r1, [a] ; Smjesti %r1 u memorijsku lokaciju a st %r2, [b] ; Smjesti %r2 u memorijsku lokaciju b
+st %r3, [c]	; Smjesti %r3 u memorijsku lokaciju c
+
+halt	; Zaustavi program
+a:	3
+
+b:	1
+
+c:	2
+
+.end
+
+
+PRIMJER 13. Izračunati sumu niza od 4 člana, te rezultat spremiti u registar %r5.
+ 
+.begin
+.org 2048	! Pomjeranje na adresu 2048
+ 
+main:
+
+a_start
+
+! Oznaka za početak glavnog dijela programa
+
+.equ 3000	! Definicija simbola a_start koji označava početnu adresu niza
+
+ld [length], %r1	! Učitavanje dužine niza u registar %r1
+
+ld [address], %r2	! Učitavanje početne adrese niza u registar %r2
+ 
+andcc %r5, %r0, %r5 ! Resetovanje registra %r5 koji će se koristiti za sumiranje elemenata
+ 
+
+loop:
+
+andcc %r1, %r1, %r0
+! Provjera da li je dužina niza postala nula
+
+be done	! Ako jeste, prekini petlju i pređi na kraj programa
+
+addcc %r1,-4,%r1	! Smanjenje dužine niza za 4 bajta (veličina jednog elementa)
+
+addcc %r1, %r2, %r3	! Izračunavanje adrese sledećeg elementa niza
+
+ld %r3,%r4	! Učitavanje vrijednosti sledećeg elementa niza u registar%r4
+
+addcc %r5, %r4, %r5	! Dodavanje vrijednosti elementa na sumu u registru%r5
+
+ba loop	! Ponovno izvršavanje petlje za sljedeći element niza
+
+done:
+halt
+
+! znaka za kraj programa
+
+! Zaustavljanje izvršavanja programa
+
+length: 16
+
+address: a_start
+ 
+! Definicija dužine niza
+
+! Definicija početne adrese niza
+
+a: 20,10,20,10 .end
+ 
+.org a_start	! Početak niza
+
+! Inicijalizacija niza
+
+! Kraj programa
+ 
+
+
+
+ZADATAK 14. Napisati program u Assembleru koji učitava niz od 5 članova te pronalazi najveći član niza i ispisuje ga u registar %r6.
+
+.begin
+
+.org 2048
+
+! Početak programa na adresi 2048
+
+main:
+
+a_start .equ 3000	! Definicija početne adrese niza
+
+ld [length], %r1	! Učitavanje dužine niza (20 bajtova) u registar %r1
+
+ld [address], %r2	! Učitavanje početne adrese niza u registar %r2
+
+andcc %r6, %r0, %r6	! Inicijalizacija registra %r6 na 0, koristi se za čuvanje najvećeg elementa
+loop:
+
+andcc %r1, %r1, %r0	! Provjera da li je %r1 (dužina niza) jednaka 0
+
+be done	! Ako jeste, prelazak na oznaku done (kraj programa)
+
+addcc %r1, -4, %r1	! Smanjenje %r1 za 4 bajta (veličina jednog elementa)
+
+addcc %r1, %r2, %r3	! Računanje adrese trenutnog elementa: %r2 (početna adresa) + %r1
+
+ld %r3, %r4	! Učitavanje trenutnog elementa niza u registar %r4
+
+subcc %r6, %r4, %r5	! Oduzimanje %r4 od %r6 i postavljanje statusnih flagova
+bneg prvi
+ba loop
+
+
+prvi:
+
+addcc %r4, %r0, %r6
+! Ažuriranje registra %r6 sa trenutnim elementom %r4 (novi najveći
+ba loop
+! Bezuslovni skok na početak petlje loop
+done:
+
+halt
+
+! Zaustavljanje programa
+
+length: 20
+
+! Dužina niza (5 elemenata * 4 bajta = 20 bajtova)
+address: a_start
+! Početna adresa niza
+.org a_start
+! Početak niza na adresi a_start
+a:	50, 10, 3, -9, -20! Inicijalizacija niza sa 5 elemenata
+.end
+
+
+
+ZADATAK 15.	Napisati kod u Assembleru koji učitava niz od 10 brojeva, te broji koliko ima pozitivnih brojeva, a koliko negativnih u nizu. Broj pozitivnih brojeva smješta u registar %r7, a broj negativnih brojeva sprema u registar %r6.
+
+
+
+.begin
+
+.org 2048
+
+
+
+a_start .equ 3000
+
+ld [length], %r1
+
+ld [address], %r2
+
+
+
+loop:
+
+addcc %r1, -4, %r1
+ 
+bneg done
+
+addcc %r1, %r2, %r3
+
+ld %r3, %r4
+
+subcc %r4, %r0, %r5
+
+bneg negativnih
+
+ba pozitivnih
+
+
+
+negativnih:
+
+addcc %r6, 1, %r6
+
+ba loop
+
+
+
+pozitivnih:
+
+addcc %r7, 1, %r7
+
+ba loop
+
+
+
+done:
+
+halt
+
+
+
+length: 40
+
+address: a_start
+
+
+
+.org a_start
+
+a:	10, -8, 5, -96, 62, -36, 15, -33, 78, -54
+
+
+
+.end
+ 
+
+ZADATAK 16. Napisati program u Assembleru koji učitava 10 članova niza, te broji koliko je pozitivnih članova niza, te računa sumu pozitivnih članova niza. Broj pozitivnih članova niza spremiti u registar %r8, sumu pozitivnih spremiti u registar %r9.
+
+.begin
+
+.org 2048
+
+
+
+a_start .equ 3000
+
+ld [length], %r1
+
+ld [address], %r2
+
+
+
+loop:
+
+addcc %r1, -4, %r1
+
+bneg done
+
+addcc %r1, %r2, %r3
+
+ld %r3, %r4
+
+subcc %r4, %r0, %r5
+
+bneg loop
+
+addcc %r6, 1, %r6
+
+addcc %r7, %r4, %r7
+
+ba loop
+
+done:
+
+halt
+
+
+
+length: 40
+
+address: a_start
+
+.org a_start
+
+a:	10, -10, 20, -10, 30, -20, 40, -10, 20, -10
+
+.end
